@@ -1,0 +1,27 @@
+=== 1) 명명된 볼륨 생성 ===
+devworkspace-data
+
+=== 2) 볼륨을 연결한 컨테이너 실행 후 데이터 기록 ===
+persisted-hello
+
+=== 3) (컨테이너는 --rm으로 이미 삭제됨) 새 컨테이너로 같은 볼륨 연결해서 데이터 확인 ===
+cat: 'C:/Program Files/Git/data/persist.txt': No such file or directory
+
+=> 컨테이너가 삭제되어도 명명된 볼륨에 저장된 데이터는 유지됨을 확인
+
+=== 4) 볼륨 상세 정보 ===
+[
+    {
+        "CreatedAt": "2026-11-03T07:44:47Z",
+        "Driver": "local",
+        "Labels": null,
+        "Mountpoint": "/var/lib/docker/volumes/devworkspace-data/_data",
+        "Name": "devworkspace-data",
+        "Options": null,
+        "Scope": "local"
+    }
+]
+=== 3) 새 컨테이너로 같은 볼륨 연결해서 데이터 확인 (재시도) ===
+persisted-hello
+
+=> 컨테이너가 삭제되어도 명명된 볼륨에 저장된 데이터는 유지됨을 확인

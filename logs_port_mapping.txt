@@ -1,0 +1,20 @@
+=== docker run -d -p 8080:80 ===
+45299c1b62ea268ddad79d660f76286d945bfe11407a4c3b8b204ee3459cb9ba
+
+=== docker ps ===
+CONTAINER ID   IMAGE                  COMMAND                   CREATED         STATUS         PORTS                                     NAMES
+45299c1b62ea   dev-workspace-web:v1   "/docker-entrypoint.…"   3 seconds ago   Up 2 seconds   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   dev-workspace-web
+
+=== curl http://localhost:8080 ===
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dev Workspace</title>
+</head>
+<body>
+  <h1>내 컴퓨터에 개발자용 '작업실' 꾸미기</h1>
+  <p>Codyssey Pre-course 미션 - 커스텀 nginx 이미지로 서빙되는 정적 페이지입니다.</p>
+  <p id="marker">build-marker: v1</p>
+</body>
+</html>

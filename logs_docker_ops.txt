@@ -1,0 +1,25 @@
+=== 1) 백그라운드 컨테이너 실행 (demo-ubuntu) ===
+0f5f0875c34986d30b3c65c17b09834e7f2db6c399a5b3fd70f147e2d0b10815
+
+=== 2) docker ps (실행 중인 컨테이너) ===
+CONTAINER ID   IMAGE     COMMAND                   CREATED         STATUS         PORTS     NAMES
+0f5f0875c349   ubuntu    "bash -c 'while true…"   4 seconds ago   Up 3 seconds             demo-ubuntu
+
+=== 3) docker logs demo-ubuntu ===
+tick 07:42:21
+tick 07:42:23
+tick 07:42:25
+
+=== 4) docker stats --no-stream (리소스 확인) ===
+CONTAINER ID   NAME          CPU %     MEM USAGE / LIMIT     MEM %     NET I/O         BLOCK I/O   PIDS
+0f5f0875c349   demo-ubuntu   0.00%     2.898MiB / 7.625GiB   0.04%     1.17kB / 126B   0B / 0B     2
+
+=== 5) docker exec (실행 중 컨테이너에 새 프로세스로 진입) ===
+exec로 들어와서 실행한 명령
+
+=== 6) 컨테이너 중지 ===
+demo-ubuntu
+
+=== 7) docker ps -a (중지된 컨테이너 포함 전체 목록) ===
+CONTAINER ID   IMAGE     COMMAND                   CREATED          STATUS                                PORTS     NAMES
+0f5f0875c349   ubuntu    "bash -c 'while true…"   11 seconds ago   Exited (137) Less than a second ago             demo-ubuntu

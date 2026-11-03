@@ -1,0 +1,74 @@
++ cd /c/Users/USER/Desktop/dev-workspace
++ echo '### 1) 현재 위치 확인'
+### 1) 현재 위치 확인
++ pwd
+/c/Users/USER/Desktop/dev-workspace
++ echo '### 2) 목록 확인 (숨김 파일 포함)'
+### 2) 목록 확인 (숨김 파일 포함)
++ ls -la
+total 29
+drwxr-xr-x 1 USER 197121   0 Nov  3 16:40 .
+drwxr-xr-x 1 USER 197121   0 Nov  3 16:40 ..
+drwxr-xr-x 1 USER 197121   0 Nov  3 16:40 app
+-rw-r--r-- 1 USER 197121 254 Nov  3 16:40 logs_terminal.txt
+drwxr-xr-x 1 USER 197121   0 Nov  3 16:40 practice
+-rwxr-xr-x 1 USER 197121 724 Nov  3 16:40 terminal_practice.sh
++ echo '### 3) 디렉토리 생성'
+### 3) 디렉토리 생성
++ mkdir -p practice
++ echo '### 4) 이동'
+### 4) 이동
++ cd practice
++ pwd
+/c/Users/USER/Desktop/dev-workspace/practice
++ echo '### 5) 빈 파일 생성'
+### 5) 빈 파일 생성
++ touch sample.txt
++ touch .hidden_sample
++ echo '### 6) 목록 확인 (숨김 파일 포함)'
+### 6) 목록 확인 (숨김 파일 포함)
++ ls -la
+total 5
+drwxr-xr-x 1 USER 197121  0 Nov  3 16:40 .
+drwxr-xr-x 1 USER 197121  0 Nov  3 16:40 ..
+-rw-r--r-- 1 USER 197121  0 Nov  3 16:40 .hidden_sample
+-rw-r--r-- 1 USER 197121 20 Nov  3 16:40 sample.txt
++ echo '### 7) 파일 내용 확인 (쓰기 후 확인)'
+### 7) 파일 내용 확인 (쓰기 후 확인)
++ echo 'hello dev-workspace'
++ cat sample.txt
+hello dev-workspace
++ echo '### 8) 복사'
+### 8) 복사
++ cp sample.txt sample_copy.txt
++ ls -la
+total 6
+drwxr-xr-x 1 USER 197121  0 Nov  3 16:40 .
+drwxr-xr-x 1 USER 197121  0 Nov  3 16:40 ..
+-rw-r--r-- 1 USER 197121  0 Nov  3 16:40 .hidden_sample
+-rw-r--r-- 1 USER 197121 20 Nov  3 16:40 sample.txt
+-rw-r--r-- 1 USER 197121 20 Nov  3 16:40 sample_copy.txt
++ echo '### 9) 이동/이름변경'
+### 9) 이동/이름변경
++ mv sample_copy.txt renamed.txt
++ ls -la
+total 6
+drwxr-xr-x 1 USER 197121  0 Nov  3 16:40 .
+drwxr-xr-x 1 USER 197121  0 Nov  3 16:40 ..
+-rw-r--r-- 1 USER 197121  0 Nov  3 16:40 .hidden_sample
+-rw-r--r-- 1 USER 197121 20 Nov  3 16:40 renamed.txt
+-rw-r--r-- 1 USER 197121 20 Nov  3 16:40 sample.txt
++ echo '### 10) 삭제'
+### 10) 삭제
++ rm renamed.txt
++ ls -la
+total 5
+drwxr-xr-x 1 USER 197121  0 Nov  3 16:40 .
+drwxr-xr-x 1 USER 197121  0 Nov  3 16:40 ..
+-rw-r--r-- 1 USER 197121  0 Nov  3 16:40 .hidden_sample
+-rw-r--r-- 1 USER 197121 20 Nov  3 16:40 sample.txt
++ echo '### 11) 상위 디렉토리로 복귀'
+### 11) 상위 디렉토리로 복귀
++ cd ..
++ pwd
+/c/Users/USER/Desktop/dev-workspace

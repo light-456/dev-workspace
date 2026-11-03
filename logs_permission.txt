@@ -1,0 +1,16 @@
+=== 변경 전 (before): file=600(rw-------), dir=700(rwx------) ===
+total 0
+drwx------ 1 root root 4096 Nov  3 07:42 perm_dir
+-rw------- 1 root root    0 Nov  3 07:42 perm_file.txt
+
+=== chmod 644 perm_file.txt -> rw-r--r-- ===
+=== chmod 755 perm_dir -> rwxr-xr-x ===
+
+=== 변경 후 (after) ===
+total 0
+drwxr-xr-x 1 root root 4096 Nov  3 07:42 perm_dir
+-rw-r--r-- 1 root root    0 Nov  3 07:42 perm_file.txt
+
+=== stat으로 숫자 표기 재확인 ===
+-rw-r--r-- 644 perm_test/perm_file.txt
+drwxr-xr-x 755 perm_test/perm_dir

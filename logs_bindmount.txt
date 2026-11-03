@@ -1,0 +1,13 @@
+=== 기존 컨테이너 정리 ===
+dev-workspace-web
+dev-workspace-web
+
+=== 바인드 마운트로 새로 실행 (호스트 app/ -> 컨테이너 html) ===
+2abc2d10ae3d31f64327a40d0b68427d7b8687a08f0656c40706b3bb0a784977
+
+=== 마운트 직후 접속 결과 (v1) ===
+  <p id="marker">build-marker: v1</p>
+=== 호스트 파일 수정 후, 재빌드 없이 즉시 접속 결과 ===
+  <p id="marker">build-marker: v2-bindmount-updated</p>
+
+=> 바인드 마운트이므로 컨테이너 재시작/재빌드 없이 호스트 변경이 즉시 반영됨을 확인
