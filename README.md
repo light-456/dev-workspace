@@ -107,6 +107,9 @@ exec로 들어와서 실행한 명령
 
 **attach vs exec 차이**: `attach`는 컨테이너의 **메인 프로세스(PID 1)의 표준입출력에 그대로 연결**하는 것이라 메인 프로세스를 종료시키면 컨테이너 자체가 멈출 위험이 있다. 반면 `exec`는 이미 실행 중인 컨테이너 **안에 새로운 프로세스를 추가로 띄워서** 실행하는 방식이라 메인 프로세스와 분리되어 있고, 끝나도 컨테이너에는 영향이 없다. 위 실습에서는 `exec`로 메인 프로세스를 건드리지 않고 별도 명령만 실행했다.
 
+![Docker Desktop 컨테이너 목록](./screenshots/02-docker-desktop-containers.png)
+![Docker Desktop 이미지 목록 (dev-workspace-web, hello-world, ubuntu)](./screenshots/03-docker-desktop-images.png)
+
 ### 4.5 커스텀 Dockerfile 이미지 (방식 A: 웹서버 베이스) — [`Dockerfile`](./Dockerfile), [`app/index.html`](./app/index.html), [`logs_docker_build.txt`](./logs_docker_build.txt)
 
 기존 베이스: `nginx:alpine` 공식 이미지. 적용한 커스텀 포인트: `COPY app/ /usr/share/nginx/html/`로 nginx 기본 환영 페이지를 미션 전용 정적 콘텐츠로 교체.
@@ -140,6 +143,8 @@ $ curl -s http://localhost:8080
 <p id="marker">build-marker: v1</p>
 ```
 
+![브라우저로 localhost:8080 접속 화면](./screenshots/01-browser-port-mapping-8080.png)
+
 ### 4.7 바인드 마운트 반영 증거 — [`logs_bindmount.txt`](./logs_bindmount.txt)
 
 `-v <호스트 app 경로>:/usr/share/nginx/html`로 바인드 마운트하여 실행한 뒤, **컨테이너 재시작/재빌드 없이** 호스트의 `app/index.html`을 수정하고 즉시 `curl`로 재확인.
@@ -168,6 +173,8 @@ persisted-hello
 
 컨테이너는 매번 새로 생성/삭제됐지만 볼륨에 저장된 데이터는 그대로 유지됨을 확인.
 
+![Docker Desktop 볼륨 목록 (devworkspace-data)](./screenshots/04-docker-desktop-volumes.png)
+
 ### 4.9 Git 설정 및 GitHub 연동 — [`logs_git_setup.txt`](./logs_git_setup.txt)
 
 ```text
@@ -182,6 +189,8 @@ init.defaultbranch=main
 ```
 
 GitHub 계정(`light-456`)은 `gh auth login` 디바이스 코드 플로우로 인증 완료(`gh auth status` 확인), 본 저장소는 `git remote add origin` 이후 `git push`로 GitHub에 연동한다.
+
+![GitHub 저장소 페이지 (light-456/dev-workspace)](./screenshots/05-github-repository.png)
 
 ## 5. 트러블슈팅
 
