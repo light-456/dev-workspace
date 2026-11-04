@@ -31,6 +31,7 @@ Git/GitHub으로 결과물을 버전 관리하고 제출한다.
 - [x] 바인드 마운트: 호스트 변경 → 컨테이너 즉시 반영 검증
 - [x] Docker 볼륨: 컨테이너 삭제 후에도 데이터 유지 검증
 - [x] Git 설정 및 GitHub 연동
+- [x] (보너스) Docker Compose로 멀티 서비스 선언 및 실행
 
 ## 4. 검증 방법 및 결과 (어떤 명령으로 무엇을 확인했는지)
 
@@ -191,6 +192,52 @@ init.defaultbranch=main
 GitHub 계정(`light-456`)은 `gh auth login` 디바이스 코드 플로우로 인증 완료(`gh auth status` 확인), 본 저장소는 `git remote add origin` 이후 `git push`로 GitHub에 연동한다.
 
 ![GitHub 저장소 페이지 (light-456/dev-workspace)](./screenshots/05-github-repository.png)
+
+### 4.10 (보너스) Docker Compose — [`docker-compose.yml`](./docker-compose.yml), [`logs_compose.txt`](./logs_compose.txt)
+
+지금까지 `docker build` + `docker run -p ... -v ...`로 손으로 띄우던 웹 서버를 `docker-compose.yml` 한 파일에 선언하고, `docker compose` 명령 한 줄로 빌드·실행·확인하는 과정을 실습했다.
+
+```yaml
+name: dev-workspace
+
+services:
+  web:
+    build: .
+    container_name: dev-workspace-compose-web
+    ports:
+      - "8090:80"          # 기존 8080(수동 run)과 별도로 8090 포트 사용
+    volumes:
+      - ./app:/usr/share/nginx/html   # 바인드 마운트
+      - compose-data:/data            # 네임드 볼륨
+
+volumes:
+  compose-data:
+```
+
+```text
+$ docker compose up -d --build
+ Image dev-workspace-web Built
+ Network dev-workspace_default Created
+ Volume dev-workspace_compose-data Created
+ Container dev-workspace-compose-web Started
+
+$ docker compose ps
+NAME                        IMAGE               SERVICE   STATUS          PORTS
+dev-workspace-compose-web   dev-workspace-web   web       Up              0.0.0.0:8090->80/tcp
+
+$ curl -s localhost:8090
+<p id="marker">build-marker: v2-bindmount-updated</p>
+
+$ docker volume ls
+dev-workspace_compose-data
+devworkspace-data
+```
+
+**기존 `docker run` 방식과의 차이**: `docker run`으로 띄운 `dev-workspace-web-bind`(8080 포트)는 그대로 두고, `docker compose up` 한 번으로 완전히 별도의 서비스(`dev-workspace-compose-web`, 8090 포트)를 빌드부터 네트워크·볼륨 생성까지 전부 자동으로 처리했다. Docker Desktop의 Containers 목록에서도 `dev-workspace`라는 **compose 프로젝트 그룹**으로 묶여서 보이며, 그 안에 `web` 서비스 컨테이너가 속해 있는 구조를 확인할 수 있다.
+
+![브라우저로 localhost:8090 접속 화면 (Docker Compose로 띄운 서비스)](./screenshots/06-browser-compose-port-8090.png)
+![Docker Desktop 컨테이너 목록 - dev-workspace compose 프로젝트 그룹으로 묶여 있음](./screenshots/07-docker-desktop-compose-containers.png)
+![Docker Desktop 볼륨 목록 - dev-workspace_compose-data가 compose up으로 자동 생성됨](./screenshots/08-docker-desktop-compose-volumes.png)
 
 ## 5. 트러블슈팅
 

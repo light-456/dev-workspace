@@ -1,0 +1,97 @@
+### 1) docker-compose.yml 내용
+name: dev-workspace
+
+services:
+  web:
+    build: .
+    container_name: dev-workspace-compose-web
+    ports:
+      - "8090:80"
+    volumes:
+      - ./app:/usr/share/nginx/html
+      - compose-data:/data
+
+volumes:
+  compose-data:
+
+### 2) docker compose up (빌드 + 실행)
+ Image dev-workspace-web Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 531B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 178B 0.0s done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/nginx:alpine
+#3 DONE 1.6s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 425B done
+#5 DONE 0.0s
+
+#6 [1/2] FROM docker.io/library/nginx:alpine@sha256:785835ea65db4bba6f021acc0f3be91b0fef76a53fe41f8588c6698d2aed0606
+#6 resolve docker.io/library/nginx:alpine@sha256:785835ea65db4bba6f021acc0f3be91b0fef76a53fe41f8588c6698d2aed0606 0.0s done
+#6 CACHED
+
+#7 [2/2] COPY app/ /usr/share/nginx/html/
+#7 DONE 0.0s
+
+#8 exporting to image
+#8 exporting layers 0.1s done
+#8 exporting manifest sha256:22cb9459ff629d9aa44128a1796fd028cfa6870c3193b721e2573731c647cafc 0.0s done
+#8 exporting config sha256:d7d6d9d829334af79191c7fe9ef67c115b3620a19f406ae1dafa3c5248a04e85 0.0s done
+#8 exporting attestation manifest sha256:e62582054fccf1d9156ee9368ab46b497905a6443f302b0762aada1409a535d2 0.0s done
+#8 exporting manifest list sha256:6c7ba5c8461377b23776ffa9bc3e12a20a8071b051531079f61f8b9fd79a5e7a 0.0s done
+#8 naming to docker.io/library/dev-workspace-web:latest done
+#8 unpacking to docker.io/library/dev-workspace-web:latest 0.0s done
+#8 DONE 0.2s
+
+#9 resolving provenance for metadata file
+#9 DONE 0.0s
+ Image dev-workspace-web Built 
+ Network dev-workspace_default Creating 
+ Volume dev-workspace_compose-data Creating 
+ Network dev-workspace_default Creating 
+ Volume dev-workspace_compose-data Creating 
+ Volume dev-workspace_compose-data Created 
+ Volume dev-workspace_compose-data Created 
+ Network dev-workspace_default Created 
+ Network dev-workspace_default Created 
+ Container dev-workspace-compose-web Creating 
+ Container dev-workspace-compose-web Created 
+ Container dev-workspace-compose-web Starting 
+ Container dev-workspace-compose-web Started 
+
+### 3) 서비스 상태 확인 (docker compose ps)
+NAME                        IMAGE               COMMAND                   SERVICE   CREATED        STATUS                  PORTS
+dev-workspace-compose-web   dev-workspace-web   "/docker-entrypoint.…"   web       1 second ago   Up Less than a second   0.0.0.0:8090->80/tcp, [::]:8090->80/tcp
+
+### 4) 전체 컨테이너 확인 (docker ps)
+CONTAINER ID   IMAGE                  COMMAND                   CREATED         STATUS        PORTS                                     NAMES
+b665878986dc   dev-workspace-web      "/docker-entrypoint.…"   2 seconds ago   Up 1 second   0.0.0.0:8090->80/tcp, [::]:8090->80/tcp   dev-workspace-compose-web
+2abc2d10ae3d   dev-workspace-web:v1   "/docker-entrypoint.…"   23 hours ago    Up 2 hours    0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   dev-workspace-web-bind
+
+### 5) 접속 확인 (curl localhost:8090)
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dev Workspace</title>
+</head>
+<body>
+  <h1>내 컴퓨터에 개발자용 '작업실' 꾸미기</h1>
+  <p>Codyssey Pre-course 미션 - 커스텀 nginx 이미지로 서빙되는 정적 페이지입니다.</p>
+  <p id="marker">build-marker: v2-bindmount-updated</p>
+</body>
+</html>
+
+### 6) 볼륨 생성 확인 (docker volume ls)
+DRIVER    VOLUME NAME
+local     dev-workspace_compose-data
+local     devworkspace-data

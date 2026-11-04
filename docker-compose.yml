@@ -1,0 +1,14 @@
+name: dev-workspace
+
+services:
+  web:
+    build: .
+    container_name: dev-workspace-compose-web
+    ports:
+      - "8090:80"
+    volumes:
+      - ./app:/usr/share/nginx/html
+      - compose-data:/data
+
+volumes:
+  compose-data:
