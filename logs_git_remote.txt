@@ -1,0 +1,14 @@
+### git remote -v
+origin	https://github.com/light-456/dev-workspace.git (fetch)
+origin	https://github.com/light-456/dev-workspace.git (push)
+
+### git log --oneline -5
+5f50af8 feat: add bonus Docker Compose setup with evidence
+ce20129 docs: add real screenshots (browser, Docker Desktop, GitHub) as visual evidence
+f29a9c9 feat: dev workspace setup - terminal/permission practice, Docker custom nginx image, bind mount & volume persistence verification, Git setup
+
+### git push 결과 (최근 커밋 재푸시 확인용 - 이미 최신 상태)
+Everything up-to-date
+
+### GitHub 원격 저장소 최신 커밋 확인 (gh)
+{"defaultBranchRef":{"name":"main"},"pushedAt":"2026-11-04T07:09:35Z","url":"https://github.com/light-456/dev-workspace"}

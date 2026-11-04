@@ -1,0 +1,35 @@
+### 1) 이미 사용 중인 8090 포트에 새 컨테이너를 올려서 충돌 재현
+Unable to find image 'nginx:alpine' locally
+alpine: Pulling from library/nginx
+Digest: sha256:785835ea65db4bba6f021acc0f3be91b0fef76a53fe41f8588c6698d2aed0606
+Status: Downloaded newer image for nginx:alpine
+1b3e8eb5ddd7a1c4471bc2b7f716b0c7a9cd30e1ec60d9566e44d3c3849e27e2
+docker: Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint port-conflict-test (55b774077031ca0127529e458cf3255c112cf3636c702acea88de76f7642da5a): Bind for 0.0.0.0:8090 failed: port is already allocated
+
+Run 'docker run --help' for more information
+
+### 2) 포트를 점유 중인 프로세스 확인 (Windows netstat)
+  TCP    0.0.0.0:8090           0.0.0.0:0              LISTENING       7880
+  TCP    127.0.0.1:8090         0.0.0.0:0              LISTENING       33740
+  TCP    [::]:8090              [::]:0                 LISTENING       7880
+  TCP    [::1]:8090             [::]:0                 LISTENING       33740
+
+### 3) 어떤 컨테이너가 8090을 쓰고 있는지 docker ps로 교차 확인
+CONTAINER ID   IMAGE               COMMAND                   CREATED             STATUS             PORTS                                     NAMES
+b665878986dc   dev-workspace-web   "/docker-entrypoint.…"   About an hour ago   Up About an hour   0.0.0.0:8090->80/tcp, [::]:8090->80/tcp   dev-workspace-compose-web
+
+### 4) 진단 결과: dev-workspace-compose-web 컨테이너가 이미 8090을 점유 중
+     해결책 A) 충돌난 테스트 컨테이너를 정리하고 다른 포트(8091) 사용
+     해결책 B) 기존 점유 컨테이너를 stop 한 뒤 재사용
+
+### 5) 실패한 테스트 컨테이너 정리
+port-conflict-test
+
+### 6) 다른 포트(8091)로 재시도 → 정상 기동
+ead2c3984cffb240c760ef1e13637d85a9149694ec45ffdc404dfbfb01973e06
+CONTAINER ID   IMAGE          COMMAND                   CREATED        STATUS                  PORTS                                     NAMES
+ead2c3984cff   nginx:alpine   "/docker-entrypoint.…"   1 second ago   Up Less than a second   0.0.0.0:8091->80/tcp, [::]:8091->80/tcp   port-conflict-test
+HTTP 200
+
+### 7) 테스트 컨테이너 정리
+port-conflict-test
